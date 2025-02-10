@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Veículos e Proprietários</title>
+    <script>
+        async function cadastrarCidadao() {
+            const response = await fetch('../scripts/cadastrar_cidadao.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                    NumeroUnico: document.getElementById('numeroUnico').value,
+                    Nome: document.getElementById('nome').value,
+                    Endereco: document.getElementById('endereco').value,
+                    DataNascimento: document.getElementById('dataNascimento').value
+                })
+            });
+            const result = await response.json();
+            //alert(result.success ? 'Cidadao cadastrado com sucesso!' : 'Erro ao cadastrar cidadão');
+            alert(result.success ? 'Cidadao cadastrado com sucesso!' : `Erro ao cadastrar cidadão: ${result.error}`);
+            //alert(result.success ? 'Cidadao cadastrado com sucesso!' : 'Erro ao cadastrar cidadão: ' + result.error); //correcão falha cadastro
+        }
+
+        async function cadastrarViatura() {
+            const response = await fetch('../scripts/cadastrar_viatura.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                    Matricula: document.getElementById('matricula').value,
+                    Marca: document.getElementById('marca').value,
+                    Modelo: document.getElementById('modelo').value,
+                    Ano: document.getElementById('ano').value,
+                    Cor: document.getElementById('cor').value
+                })
+            });
+            const result = await response.json();
+            alert(result.success ? 'Viatura cadastrada com sucesso!' : 'Erro ao cadastrar viatura');
+        }
+    </script>
+</head>
+<body>
+    <h1>Cadastro de Cidadãos e Viaturas</h1>
+
+    <h2>Cadastrar Cidadão</h2>
+    <input type="text" id="numeroUnico" placeholder="Número Único" />
+    <input type="text" id="nome" placeholder="Nome" />
+    <input type="text" id="endereco" placeholder="Endereço" />
+    <input type="date" id="dataNascimento" />
+    <button onclick="cadastrarCidadao()">Cadastrar Cidadão</button>
+
+    <h2>Cadastrar Viatura</h2>
+    <input type="text" id="matricula" placeholder="Matrícula" />
+    <input type="text" id="marca" placeholder="Marca" />
+    <input type="text" id="modelo" placeholder="Modelo" />
+    <input type="number" id="ano" placeholder="Ano" />
+    <input type="text" id="cor" placeholder="Cor" />
+    <button onclick="cadastrarViatura()">Cadastrar Viatura</button>
+</body>
+</html>
