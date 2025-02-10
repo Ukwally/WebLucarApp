@@ -1,0 +1,237 @@
+*{font-family:sans-serif}
+:root{
+    --primary-color:#353c44;
+    --primary-alt-color:#212122b0;
+    --dark-shadown:#212122b0;
+    --light-shadown:#212122b0;
+    --light-border:#cecee2b0;
+    --dark-border:#cacacac2;
+    --text-primary:#dae0e2;
+    --input-backgroud:rgb(121, 121, 121);
+    --blue: #2c547c;
+    --light-grey-primary:rgb(236, 236, 236);
+    --light-grey-secundary:rgb(212, 212, 212);
+    /*MOTIONS COLOR*/
+    --success-primary:#00803a;
+    --success-secundary:#2a724b;
+    /* DARK COLORS*/
+    --black60:#2c2c2e;
+    --black30:#1d1d1f;
+    --black10:#1a1a1b;
+    /*TO DARK MODE*/
+    --dark-blue60:#3f6791;
+    --dark-blue30:#5c7ea2;
+    --dark-grey60:#454d55;;
+    --dark-grey30:#343a40;
+    --dark-grey10:#ced4da;
+}
+/*----------------------
+INICIO HEADER
+-----------------------*/
+.header{
+    padding: 0px 20px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    background-color: #65808fcb;
+    width: 100%;
+}
+.header .header-left h1{ color: #e3f4fd;}
+
+.header .header-right {display: flex;align-items: center;}
+.header .header-right .header-right-txt h3{color:#b6c8da; margin: 10px;}
+.header .header-right .header-right-txt p{color: var(--black60); margin: 10px;}
+.header .header-right .user-img {background-color:#71a6db; height:80px;width:80px;padding:10px;display: flex;;box-sizing: border-box; object-fit: cover; align-items: center; justify-content: center;}
+.header .user-img img{max-width: 100%; max-height: 100%; }
+/*sub header*/
+.sub-header{background-color: whitesmoke; width: 100%; display: flex; justify-content: space-between; align-items: center;box-shadow:0px 4px 4px #2c2c2e2d;}
+.sub-header small{ /*animation: slide 5s linear infinite;*/color: #268aee; margin: 10px; font-weight: 500;}
+.sub-header .menu{background-color:  #b2c1ce;;height: 28px; width: 34px; margin-right: 20px;}
+.sub-header .menu div{ background-color: #4987aa; height: 4px; margin: 4px; width: 26px;display: flex; }
+
+.btn{
+    text-decoration: none;
+    border: none; 
+    background-color: #6892a8; 
+    color: whitesmoke;
+    padding: 4px; 
+    margin-right: 20px;
+    border-radius: 2px;
+    box-shadow: 0px 2px 7px 0px #2c2c2e7a; 
+    font-size: 11px; 
+    font-weight: 400;
+}
+
+/*-------------------------
+FIM HEADER
+--------------------------*/
+.targuet-list{
+    display:flex;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    }
+.targuet-list a{text-decoration: none; color: rgb(93, 108, 110); font-size: 12px;margin-right: 4px;display: flex;align-items: center;justify-content: center;}
+    
+body{
+    padding: 0;
+    margin: 0;
+    /*background: #353D40 url(../dist/img/bg-3.jpg);*/
+    /*background-color: #2c2c2e;*/
+    background-color: #65808f2a;
+    color: #202122;
+}
+
+.row{
+    display: flex;
+    flex-direction: row;
+}
+.col{
+    display: flex;
+    flex-direction: column;
+}
+
+.float-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/**
+CARDS
+**/
+/*card 1*/
+.card{
+    background-color: #c2ced1;
+    border-radius: 4px;
+    width: fit-content;
+    border: 1px solid var(--light-border);
+    box-shadow: 1px 2px 4px 1px rgba(52, 52, 53, 0.692);
+    border-top: 3px solid rgb(148, 183, 219);
+    margin: 20px;
+
+}
+.card .card-header{
+    padding: 5px;
+    border-bottom: 1px solid var(--dark-border);
+    background-color:#486066;
+}
+.card .card-header img{
+max-width: 55px;
+max-height: 55px;
+}
+.card .card-header .card-tittle{
+    font-family: monospace;
+    color: var(--text-primary);
+    font-size: 20px;
+    font-weight: 600;
+}
+.card .card-body{
+    padding:10px 20px;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.card .card-body label{font-family: monospace;}
+
+.card .card-footer{
+    padding: 5px;
+    border-top: 1px solid var(--dark-border);
+    text-align: end;
+}
+
+.input{
+    font-family: monospace;
+    box-sizing: border-box;
+    outline-style: none ;
+    height: 25px;
+    width: 100%;
+    border: 1px solid #62828ac4;
+    border-radius: 3px;
+    margin: 5px 0px 5px 0px;   
+}
+.input1{
+    color: rgb(74, 76, 78);
+    font-size: 16px;
+    background-color: whitesmoke;
+}
+.input1:focus{border: 2px solid #94b7db;}
+.input1::placeholder{ color: rgba(245, 245, 245, 0.637); text-align:start; padding-left: 8px; font-size: 13px;}
+.required{color: red; font-size: 11px;}
+/*--------------
+INICIO FOOTER
+---------------*/
+.div-footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 20px;
+    width: 100%;
+    position: fixed;
+    bottom:2px;
+    padding:0 25px;
+    box-sizing: border-box;
+    background-color: var(--dark-grey30);
+    color: var(--dark-grey10);
+    }
+.div-footer p{margin: 0; padding: 0; object-fit: cover; font-size: 12px;}
+.div-footer button{ border: none;background-color:transparent; color: var(--dark-grey10);display: flex;justify-items: center; align-items: center;}
+.div-footer img{ max-width: 18px; max-height: 18px; object-fit: cover; margin-left: 10px;}
+/*--------------
+FIM FOOTER
+---------------*/
+
+/*MODAL*/
+.modal{
+    z-index: 10;
+    backdrop-filter: blur(0px);
+    width: 100%;
+    height: 100%;
+    background-color:rgba(26, 38, 46, 0.582);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    
+}
+.modal-card{
+    width: 400px;
+    justify-self: center;
+    border-radius: 5px;
+    background-color:white;
+    box-shadow: 2px 2px 12px 2px rgba(15, 15, 15, 0.5);
+    border: 3px solid rgb(169, 193, 216);
+    box-sizing: border-box;
+}
+.modal .modal-card h2{
+    font-family:monospace;
+    color:rgb(0, 170, 0);
+    padding-left:10px;
+    display: flex;
+    align-items: center;
+}
+.modal .modal-card h4{
+    font-family:sans-serif; 
+    color: #6892a8;
+    padding-left:10px;
+    font-weight: 500;
+}
+.modal .modal-card .modal-btn{
+    background-color: #6892a8;
+    padding: 4px;
+    width: 40%;
+    margin: 5px;
+    border: none;
+    justify-self: center;
+    color: white;
+    box-shadow: 0px 2px 7px 0px #20212260;
+}
+.modal .modal-card .modal-btn-cancelar{
+    background-color: #a86868;
+    float: left;
+}
+.modal .modal-card .modal-btn-confirmar{
+    background-color: #68a86d;
+    float: right;
+}

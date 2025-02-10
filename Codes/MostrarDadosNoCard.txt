@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizar Dados</title>
+    <style>
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 300px;
+        }
+        .card h2 {
+            margin-top: 0;
+        }
+    </style>
+    <script>
+        async function buscarDados() {
+            const matricula = document.getElementById('matricula').value;
+            const response = await fetch(`../scripts/obter_viatura.php?Matricula=${matricula}`);
+            const viatura = await response.json();
+            
+            // Exibir os dados em cards
+            const resultado = document.getElementById('resultado');
+            resultado.innerHTML = ''; // Limpar resultados anteriores
+            
+            viatura.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <h2>${item.nome}</h2>
+                    <p><strong>Marca:</strong> ${item.marca}</p>
+                    <p><strong>Modelo:</strong> ${item.modelo}</p>
+                    <p><strong>Ano:</strong> ${item.ano}</p>
+                    <p><strong>Cor:</strong> ${item.cor}</p>
+                `;
+                resultado.appendChild(card);
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Visualizar Dados da Viatura</h1>
+    <input type="text" id="matricula" placeholder="Matrícula" />
+    <button onclick="buscarDados()">Buscar Dados</button>
+    <div id="resultado"></div>
+</body>
+</html>
+
+<h2>${item.Nome}</h2>
+<p><strong>Matricola:</strong> ${item.Matricola}</p>
+<p><strong>Marca:</strong> ${item.Marca}</p>
+<p><strong>Modelo:</strong> ${item.Modelo}</p>
+<p><strong>Ano:</strong> ${item.Ano}</p>
+<p><strong>NumeroBI:</strong> ${item.NumeroBI}</p>
+<p><strong>Nome:</strong> ${item.Nome}</p>
+<p><strong>Endereco:</strong> ${item.Endereco}</p>
+<p><strong>DataNascimento:</strong> ${item.DataNascimento}</p>
