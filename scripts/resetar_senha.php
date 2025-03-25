@@ -16,9 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $novaSenha = gerarSenha(); */
             
 
-            // Define a nova senha (por exemplo, uma senha padrão ou gerada aleatoriamente)
-
-            $novaSenha = 'senhaPadrao123'; // Substitua por sua lógica de geração
+            // Define a nova senha ( uma senha padrão ou gerada aleatoriamente)
+            $novaSenha = 'senhaPadrao123'; 
             $hashSenha = password_hash($novaSenha, PASSWORD_DEFAULT); // Hash da nova senha
 
             // Prepara a consulta para atualizar a senha

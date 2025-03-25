@@ -18,20 +18,22 @@
     <link rel="stylesheet" href="./assets/css/main.css">
 </head>
 <body>
-    <div class="header">
-        <div class="header-left">
-            <h1>LUCAR</h1>
-        </div>
-        <div class="header-right">
-            <div class="header-right-txt">
-                <h3><?php echo $_SESSION['username']?></h3>
-                <p><?php echo $_SESSION['nivel']?></p>
+    <header>
+        <div class="header">
+            <div class="header-left">
+                <h1>LUCAR</h1>
             </div>
-            <div class="user-img">
-                <img src="./assets/dist/img/adicionar-usuario.png" alt="">
+            <div class="header-right">
+                <div class="header-right-txt">
+                    <h3><?php echo $_SESSION['username']?></h3>
+                    <p><?php echo $_SESSION['nivel']?></p>
+                </div>
+                <div class="user-img">
+                    <img src="./assets/dist/img/adicionar-usuario.png" alt="">
+                </div>
             </div>
         </div>
-    </div>
+    </header>
     <div class="sub-header">
         <small>Registo e identificação de viaturas</small>
         <div>
@@ -66,7 +68,21 @@
                 </tbody>
             </table>
         </div>
-
+    </div>
+    <div class="modal" id="modal" style="display:none">
+        <div class="modal-card" id="modal-card">
+            <h2 id="modal-tittle"><img id="modalicon" src="./assets/dist/img/info.png" alt=""><span>FINALIZADO</span></h2>
+            <h4 id="modal-subtittle"></h4>
+            <button class="modal-btn modal-btn-confirmar" id="btnConfirmar">Confirmar!</button>
+            <button class="modal-btn modal-btn-cancelar" id="btnCancelar">Cancelar!</button>
+        </div>
+    </div>
+    <div class="modal" id="modal2" style="display:none">
+        <div class="modal-card" id="modal-card">
+            <h2 id="modal-tittle2"><img id="modalicon2" src="./assets/dist/img/info.png" alt=""><span>FINALIZADO</span></h2>
+            <h4 id="modal-subtittle2"></h4>
+            <button class="modal-btn" onclick="document.getElementById('modal2').style='display:none;'" >OK</button>
+        </div>
     </div>
     <div class="div-footer">
         <p>Lucar 2024 - Direitos reservados</p>
@@ -102,7 +118,8 @@
                         btnRecuperar.innerText = "Recuperar";
                         btnRecuperar.classList = "btnGreen";
                         btnRecuperar.onclick = function() {
-                            recuperarSenha(usuario.id);
+                            exibirModalRecuperar('yellow','icons8-erro.gif','Aviso','mensagem',usuario.id,usuario.username);
+
                         };
                         row.insertCell(5).appendChild(btnRecuperar);
 
@@ -111,7 +128,8 @@
                         btnExcluir.innerText = "Excluir";
                         btnExcluir.classList = "btnRed";
                         btnExcluir.onclick = function() {
-                            excluirUsuario(usuario.id);
+                            exibirModalExcuir('yellow','icons8-erro.gif','Aviso','mensagem',usuario.id,usuario.username);
+
                         };
                         row.cells[5].appendChild(btnExcluir);
                         
@@ -122,32 +140,90 @@
         }
 
         function recuperarSenha(idUsuario) {
-            if (confirm("Deseja realmente resetar a senha deste usuário?")) {
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", "../scripts/resetar_senha.php", true);
-                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState == 4 && xhr.status == 200) {
-                        alert(xhr.responseText); // Mensagem do servidor
-                    }
-                };
-                xhr.send("id=" + idUsuario);
-            }
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "../scripts/resetar_senha.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    //alert(xhr.responseText); // Mensagem do servidor
+                    exibirModal('green','icons8-sucesso.gif','Sucesso',xhr.responseText);
+                }
+            };
+            xhr.send("id=" + idUsuario);
         }
 
         function excluirUsuario(idUsuario) {
-            if (confirm("Deseja realmente excluir este usuário?")) {
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", "../scripts/excluir_usuario.php", true);
-                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState == 4 && xhr.status == 200) {
-                        alert(xhr.responseText); // Mensagem do servidor
-                        pesquisarUsuarios(); // Atualiza a lista de usuários
-                    }
-                };
-                xhr.send("id=" + idUsuario);
-            }
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "../scripts/excluir_usuario.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    //alert(xhr.responseText); // Mensagem do servidor
+                    exibirModal('green','icons8-sucesso.gif','Sucesso',xhr.responseText);
+                    pesquisarUsuarios(); // Atualiza a lista de usuários
+                }
+            };
+            xhr.send("id=" + idUsuario);
+        }
+
+        function exibirModalRecuperar(color,image,tittle,message,idUsuario,nomeUsuario){
+            const modal = document.getElementById('modal'); 
+            modal.style="display:flex";
+
+            const modaltittle = document.getElementById('modal-tittle');
+            modaltittle.style=`color:${color};`;
+            modaltittle.firstElementChild.src="./assets/dist/img/"+image;
+            modaltittle.lastElementChild.innerHTML=tittle;
+                                        
+            const modalsubtittle = document.getElementById('modal-subtittle');
+            modalsubtittle.innerHTML='Deseja realmente recetar o usuario: '+nomeUsuario+' ?';
+
+            const cofirmar = document.getElementById('btnConfirmar');
+            const cancelar = document.getElementById('btnCancelar');
+            cofirmar.onclick=function(){
+                recuperarSenha(idUsuario)
+                document.getElementById('modal').style='display:none';
+
+            };
+            cancelar.onclick=function(){
+                document.getElementById('modal').style='display:none';
+            };
+        }
+
+        function exibirModalExcuir(color,image,tittle,message,idUsuario,nomeUsuario){
+            const modal = document.getElementById('modal'); 
+            modal.style="display:flex";
+
+            const modaltittle = document.getElementById('modal-tittle');
+            modaltittle.style=`color:${color};`;
+            modaltittle.firstElementChild.src="./assets/dist/img/"+image;
+            modaltittle.lastElementChild.innerHTML=tittle;
+                                        
+            const modalsubtittle = document.getElementById('modal-subtittle');
+            modalsubtittle.innerHTML='Deseja realmente excluir o usuario: '+nomeUsuario+' ?';
+
+            const cofirmar = document.getElementById('btnConfirmar');
+            const cancelar = document.getElementById('btnCancelar');
+            cofirmar.onclick=function(){
+                excluirUsuario(idUsuario)
+                document.getElementById('modal').style='display:none';
+
+            };
+            cancelar.onclick=function(){
+                document.getElementById('modal').style='display:none';
+            };
+        }
+        function exibirModal(color,image,tittle,message){
+            const modal = document.getElementById('modal2'); 
+            modal.style="display:flex";
+
+            const modaltittle = document.getElementById('modal-tittle2');
+            modaltittle.style=`color:${color};`;
+            modaltittle.firstElementChild.src="./assets/dist/img/"+image;
+            modaltittle.lastElementChild.innerHTML=tittle;
+                                        
+            const modalsubtittle = document.getElementById('modal-subtittle2');
+            modalsubtittle.innerHTML=message;
         }
     </script>
 </body>

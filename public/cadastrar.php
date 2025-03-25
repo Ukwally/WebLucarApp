@@ -19,6 +19,9 @@
     <link rel="stylesheet" href="./assets/css/main.css">
     <script>
         async function cadastrarCidadao() {
+            if (!document.querySelector('input[name="Genero"]:checked')) {
+                exibirModal('red','icons8-erro.gif','Erro','Seleciona o Gênero');
+            }
             const response = await fetch('../scripts/cadastrar_cidadao.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -26,15 +29,69 @@
                     NumeroUnico: document.getElementById('numeroUnico').value,
                     Nome: document.getElementById('nome').value,
                     Endereco: document.getElementById('endereco').value,
-                    DataNascimento: document.getElementById('dataNascimento').value
+                    DataNascimento: document.getElementById('dataNascimento').value,
+                    Genero:document.querySelector('input[name="Genero"]:checked').value
                 })
             });
+            
             const result = await response.json();
-            //alert(result.success ? 'Cidadao cadastrado com sucesso!' : 'Erro ao cadastrar cidadão');
-            alert(result.success ? 'Cidadao cadastrado com sucesso!' : `Erro ao cadastrar cidadão: ${result.error}`);
-            //alert(result.success ? 'Cidadao cadastrado com sucesso!' : 'Erro ao cadastrar cidadão: ' + result.error); //correcão falha cadastro
+            //alert(result.success ? 'Cidadao cadastrado com sucesso!' : `Erro ao cadastrar cidadão: ${result.error}`); 
+            function exibirModal(color,image,tittle,message){
+                const modal = document.getElementById('modal'); 
+                modal.style="display:flex";
+
+                const modaltittle = document.getElementById('modal-tittle');
+                modaltittle.style=`color:${color};`;
+                modaltittle.firstElementChild.src="./assets/dist/img/"+image;
+                modaltittle.lastElementChild.innerHTML=tittle;
+
+                const modalsubtittle = document.getElementById('modal-subtittle');
+                modalsubtittle.innerHTML=message;
+            }
+            
+            if (result.success) {
+                /*
+                const modal = document.getElementById('modal'); 
+                modal.style="display:flex";
+
+                const modaltittle = document.getElementById('modal-tittle');
+                modaltittle.style='Color:green';
+                modaltittle.firstElementChild.src="./assets/dist/img/icons8-sucesso.gif";
+                modaltittle.lastElementChild.innerHTML='Secesso';
+
+                const modalsubtittle = document.getElementById('modal-subtittle');
+                const modalsubtittletext = document.createTextNode('Cidadao cadastrado com sucesso!');
+                modalsubtittle.appendChild(modalsubtittletext);*/
+
+                var color='green';
+                var image='icons8-sucesso.gif';
+                var tittle='Sucesso';
+                var message='Cidadao cadastrado com sucesso!';
+                exibirModal(color,image,tittle,message);
+
+            } else {
+                /*const modal = document.getElementById('modal'); 
+                modal.style="display:flex";
+
+                const modaltittle = document.getElementById('modal-tittle');
+                modaltittle.style='Color:red';
+                modaltittle.firstElementChild.src="./assets/dist/img/icons8-erro.gif";
+                modaltittle.lastElementChild.innerHTML='Erro';
+
+                const modalsubtittle = document.getElementById('modal-subtittle');
+                const modalsubtittletext = document.createTextNode(`Erro ao cadastrar cidadão: ${result.error}`);
+                modalsubtittle.appendChild(modalsubtittletext);*/
+
+                var color='red';
+                var image='icons8-erro.gif';
+                var tittle='Erro';
+                var message=`Erro ao cadastrar cidadão: ${result.error}`;
+                exibirModal(color,image,tittle,message);
+            }
+
             if (result.success) {
             document.getElementById('formCidadao').style.display = 'none';
+            document.getElementById('BtnIrAPropiedade').style.display = 'none';
             document.getElementById('formViatura').style.display = 'block';
             }
         }
@@ -48,12 +105,49 @@
                     Marca: document.getElementById('marca').value,
                     Modelo: document.getElementById('modelo').value,
                     Ano: document.getElementById('ano').value,
-                    Cor: document.getElementById('cor').value
+                    Cor: document.getElementById('cor').value,
+
+                    NumeroMotor: document.getElementById('NumeroMotor').value,
+                    MedidaPmeumaticos: document.getElementById('MedidaPmeumaticos').value,
+                    Servico: document.getElementById('Servico').value,
+                    Lotacao: document.getElementById('Lotacao').value,
+                    Cilindrada: document.getElementById('Cilindrada').value,
+                    NumeroCilindros: document.getElementById('NumeroCilindros').value,
+                    Combustivel: document.getElementById('Combustivel').value,
+                    PesoBruto: document.getElementById('PesoBruto').value,
+                    Tara: document.getElementById('Tara').value,
+                    NumeroQuadro: document.getElementById('NumeroQuadro').value
                 })
             });
             const result = await response.json();
-            alert(result.success ? 'Viatura cadastrada com sucesso!' : 'Erro ao cadastrar viatura');
+            //alert(result.success ? 'Viatura cadastrada com sucesso!' : 'Erro ao cadastrar viatura');
+            function exibirModal(color,image,tittle,message){
+                const modal = document.getElementById('modal'); 
+                modal.style="display:flex";
 
+                const modaltittle = document.getElementById('modal-tittle');
+                modaltittle.style=`color:${color};`;
+                modaltittle.firstElementChild.src="./assets/dist/img/"+image;
+                modaltittle.lastElementChild.innerHTML=tittle;
+
+                const modalsubtittle = document.getElementById('modal-subtittle');
+                modalsubtittle.innerHTML=message;
+            }
+            
+            if (result.success) {
+                var color='green';
+                var image='icons8-sucesso.gif';
+                var tittle='Sucesso';
+                var message='Viatura cadastrada com sucesso!';
+                exibirModal(color,image,tittle,message);
+            } else {
+                var color='red';
+                var image='icons8-erro.gif';
+                var tittle='Erro';
+                var message=`Erro ao cadastrar viatura: ${result.error}`;
+                exibirModal(color,image,tittle,message);
+            }
+            
             if (result.success) {
             document.getElementById('formViatura').style.display = 'none';
             document.getElementById('formPropriedade').style.display = 'block';
@@ -75,21 +169,51 @@
                 })
             });
             const result = await response.json();
-            alert(result.success ? 'Propiedade cadastrada com sucesso!' : 'Erro ao cadastrar viatura');
+            //alert(result.success ? 'Propiedade cadastrada com sucesso!' : 'Erro ao cadastrar propiedade');
+            function exibirModal(color,image,tittle,message){
+                const modal = document.getElementById('modal'); 
+                modal.style="display:flex";
+
+                const modaltittle = document.getElementById('modal-tittle');
+                modaltittle.style=`color:${color};`;
+                modaltittle.firstElementChild.src="./assets/dist/img/"+image;
+                modaltittle.lastElementChild.innerHTML=tittle;
+
+                const modalsubtittle = document.getElementById('modal-subtittle');
+                modalsubtittle.innerHTML=message;
+            }
+            
+            if (result.success) {
+                var color='green';
+                var image='icons8-sucesso.gif';
+                var tittle='Sucesso';
+                var message='Propiedade cadastrada com sucesso!';
+                exibirModal(color,image,tittle,message);
+            } else {
+                var color='red';
+                var image='icons8-erro.gif';
+                var tittle='Erro';
+                var message=`Erro ao cadastrar propiedade: ${result.error}`;
+                exibirModal(color,image,tittle,message);
+            }
 
             if (result.success) {
             document.getElementById('formPropriedade').style.display = 'none';
-            document.getElementById('cardFinal').style.display = 'block';
+            document.getElementById('modal').style.display = 'block';
             }
         }
 
         function recomecar(){
-            document.getElementById('cardFinal').style.display = 'none';
-            document.getElementById('formCidadao').style.display = 'block';
-
+            document.getElementById('modal').style.display = 'none';
+        }
+        function cidadaoExistente(){
+            document.getElementById('formCidadao').style.display = 'none';
+            document.getElementById('BtnIrAPropiedade').style.display = 'none';
+            document.getElementById('formViatura').style.display = 'block';
         }
     </script>
 </head>
+<body>
 <header>
     <div class="header">
         <div class="header-left">
@@ -112,12 +236,11 @@
         </div>
     </div>
 </header>
-<body>
     <div class="targuet-list">
         <a href="#" target="_self" rel="noopener noreferrer"> Inicio &#10095</a>
         <a href="#" target="_self" rel="noopener noreferrer"> Cadastro </a>
     </div>
-    <div class="row float-container">
+    <div class="col float-container">
         <div class="card" id="formCidadao">
             <div class="card-header">
                 <img src="./assets/dist/img/fingerprint.png" alt="">
@@ -132,6 +255,11 @@
                 <input type="text" id="endereco"  name="Modelo"  class="input input1" placeholder="Endereço">
                 <label for="Ano">DATA DE NASCIMENTO</label>                        
                 <input type="date" class="input input1" id="dataNascimento"  name="Ano" placeholder="Data de nacimento" />
+                <label for="Genero">GENERO</label>                        
+                <span style="margin-top:3px;font-size:13px;">
+                    M<input type="radio" name="Genero" value="Mascolino" placeholder="Mascolino" />
+                    F<input type="radio" name="Genero" value="Femenino" placeholder="Femenino" />
+                </span>
             </div>
             <div class="card-footer">
                 <button class="btn" onclick="cadastrarCidadao()">Adicionar</button>    
@@ -143,16 +271,47 @@
                 <h3 class="card-tittle">Formulario de cadastro de viaturas</h3>
             </div>
             <div class="card-body">
-                <label for="MatricolaViatura">MATRICULA</label>
-                <input type="text" id="matriculaViatura"  name="Matricola" class="input input1" placeholder="Ex.: U-404-E">
-                <label for="Marca">MARCA</label>
-                <input type="text" id="marca"  name="Marca"  class="input input1" placeholder="Marca">
-                <label for="Modelo">MODELO</label>                        
-                <input type="text" id="modelo"  name="Modelo"  class="input input1" placeholder="Modelo">
-                <label for="Ano">ANO</label>                        
-                <input type="number" id="ano"  name="Ano"  class="input input1" placeholder="Ano de laçamento">
-                <label for="Cor">COR</label>   
-                <input type="text" id="cor"  name="Cor"  class="input input1" placeholder="Cor"> 
+                <div class="row">
+                    <div>
+                        <label for="MatricolaViatura">MATRICULA <sub class="error">*</sub></label>
+                        <input type="text" id="matriculaViatura"  name="Matricola" class="input input1" placeholder="Ex.: U-404-E">
+                        <label for="Marca">MARCA <sub class="error"> *</sub></label>
+                        <input type="text" id="marca"  name="Marca"  class="input input1" placeholder="Marca">
+                        <label for="Modelo">MODELO <sub class="error"> *</sub></label>                        
+                        <input type="text" id="modelo"  name="Modelo"  class="input input1" placeholder="Modelo">
+                        <label for="Ano">ANO</label>                        
+                        <input type="number" id="ano"  name="Ano"  class="input input1" placeholder="Ano de laçamento">
+                        <label for="Cor">COR <sub class="error"> *</sub></label>   
+                        <input type="text" id="cor"  name="Cor"  class="input input1" placeholder="Cor"> 
+                    </div>
+
+                    <div>
+                        <label for="NumeroMotor">NumeroMotor <sub class="error"> *</sub></label>   
+                        <input type="text" id="NumeroMotor"  name="NumeroMotor"  class="input input1" placeholder="NumeroMotor"> 
+                        <label for="MedidaPmeumaticos">MedidaPmeumaticos <sub class="error"> *</sub></label>   
+                        <input type="text" id="MedidaPmeumaticos"  name="MedidaPmeumaticos"  class="input input1" placeholder="MedidaPmeumaticos"> 
+                        <label for="Servico">Servico</label>   
+                        <input type="text" id="Servico"  name="Servico"  class="input input1" placeholder="Servico"> 
+                        <label for="Lotacao">Lotacao</label>   
+                        <input type="text" id="Lotacao"  name="Lotacao"  class="input input1" placeholder="Lotacao"> 
+                        <label for="Cilindrada">Cilindrada <sub class="error"> *</sub></label>   
+                        <input type="text" id="Cilindrada"  name="Cilindrada"  class="input input1" placeholder="Cilindrada"> 
+                    </div>
+                    
+                    <div>
+                        <label for="NumeroCilindros">NumeroCilindros <sub class="error"> *</sub></label>   
+                        <input type="text" id="NumeroCilindros"  name="NumeroCilindros"  class="input input1" placeholder="NumeroCilindros"> 
+                        <label for="Combustivel">Combustivel <sub class="error"> *</sub></label>   
+                        <input type="text" id="Combustivel"  name="Combustivel"  class="input input1" placeholder="Combustivel"> 
+                        <label for="PesoBruto">PesoBruto</label>   
+                        <input type="text" id="PesoBruto"  name="PesoBruto"  class="input input1" placeholder="PesoBruto"> 
+                        <label for="Tara">Tara</label>   
+                        <input type="text" id="Tara"  name="Tara"  class="input input1" placeholder="Tara"> 
+                        <label for="NumeroQuadro">NumeroQuadro <sub class="error"> *</sub></label>   
+                        <input type="text" id="NumeroQuadro"  name="NumeroQuadro"  class="input input1" placeholder="NumeroQuadro"> 
+                    </div>
+                </div>                
+                <span style="margin-left: 20px; font-size:10px">(<sub class="error" style="font-size:15px">*</sub>) CAMPOS OBRIGATÓRIOS</span>
             </div>
             <div class="card-footer">
                 <button class="btn" onclick="cadastrarViatura()">Adicionar</button>
@@ -177,15 +336,20 @@
                 <button onclick="cadastrarPropiedade()">Criar</button>
             </div>
         </div>
-        <div class="modal" id="cardFinal">
+        <div class="modal" id="modal" style="display:none;">
             <div class="modal-card">
-                <h2><img src="./assets/dist/img/icons8-sucesso.gif" alt=""> FINALIZADO</h2>
-                <h4>Deseja confirmar a operação?</h4>
-                <button class="modal-btn modal-btn-confirmar" onclick="recomecar()">Confirmar!</button>
-                <button class="modal-btn modal-btn-cancelar" onclick="recomecar()">Cancelar!</button>
+                <h2 id="modal-tittle"><img id="modalicon" src="./assets/dist/img/info.png" alt=""><span>FINALIZADO</span></h2>
+                <h4 id="modal-subtittle"></h4>
+                <!--button class="modal-btn modal-btn-confirmar" onclick="recomecar()">Confirmar!</!--button>
+                <button-- class="modal-btn modal-btn-cancelar" onclick="recomecar()">Cancelar!</button-->
+                <button class="modal-btn" onclick="recomecar()">Ok</button>
             </div>
         </div>
     </di>
+    <div class="divcidadaoExistente" id="BtnIrAPropiedade" style="background-color:rgba(104, 146, 168, 0.25);width:fit-content;padding:7px 60px; border-radius:5px">
+        <h4 style="color:#486066;margin:5px 0px 7px 0px" >CIDÃO JÁ EXISTE ?</h4>
+        <button class="btn" onclick="cidadaoExistente()">CADASTRAR VIATURA</button>
+    </div>
     <div class="div-footer">
         <p>Lucar 2024 - Direitos reservados</p>
         <form action="../scripts/logout.php" method="post">

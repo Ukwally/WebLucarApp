@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="../public/assets/css/vizualizar.css">
     <link rel="stylesheet" href="../public/assets/css/main.css">
     <style>
+        #resultadoDadosV{display: flex; align-items: center; height: 100%;}
         table {
             width: 100%;
             border-collapse: collapse;
@@ -44,6 +45,7 @@
             margin:5px 20px;
             box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.36);
             max-width: 300px;
+            max-height: 200px;
             /*background-color:#8c989b6e;*/
             background-color:rgba(104, 146, 168, 0.49);
             color: whitesmoke;
@@ -59,7 +61,6 @@
             const response = await fetch(`../scripts/obter_viatura.php?Matricula=${matricula}`);
             const viatura = await response.json();
             //document.getElementById('resultadoDadosV').innerText = JSON.stringify(viatura, null, 2);
-            
             // Exibir os dados em card que substitui a linha de código comentada acima que por sua vez exibe os dados no <pre id="resultadoDadosV" class="cardBody"></pre>            
             const resultado = document.getElementById('resultadoDadosV');
             resultado.innerHTML = ''; // Limpar resultados anteriores
@@ -80,6 +81,11 @@
                 `;
                 resultado.appendChild(card);
             */
+
+            if (viatura.Matricola === undefined || viatura.length === 0)  {
+                resultado.innerHTML = '<p style="color:red">Nenhum dado encontrado.</p>';
+                return;
+            }
             
             const card = document.createElement('div');
             card.className = 'maincard';
@@ -97,6 +103,22 @@
                 <h2>${viatura.Matricola}</h2>
                 <p><strong>Ano:</strong> ${viatura.Ano}</p>
                 <p><strong>Marca:</strong> ${viatura.Marca}</p>
+                <p><strong>NumeroMotor:</strong> ${viatura.NumeroMotor}</p>
+                </div>
+
+                <div class = "card">
+                <p><strong>MedidaPmeumaticos:</strong> ${viatura.MedidaPmeumaticos}</p>
+                <p><strong>Servico:</strong> ${viatura.Servico}</p>
+                <p><strong>Lotacao:</strong> ${viatura.Lotacao}</p>
+                <p><strong>Cilindrada:</strong> ${viatura.Cilindrada}</p>
+                <p><strong>NumeroCilindros:</strong> ${viatura.NumeroCilindros}</p>
+                </div>
+
+                <div class = "card">
+                <p><strong>Combustivel:</strong> ${viatura.Combustivel}</p>
+                <p><strong>PesoBruto:</strong> ${viatura.PesoBruto}</p>
+                <p><strong>Tara:</strong> ${viatura.Tara}</p>
+                <p><strong>NumeroQuadro:</strong> ${viatura.NumeroQuadro}</p>
                 </div>
             `;
             resultado.appendChild(card);
@@ -114,7 +136,7 @@
             resultado.innerHTML = ''; // Limpar resultados anteriores
 
             if (viatura.length === 0) {
-                resultado.innerHTML = '<p>Nenhum dado encontrado.</p>';
+                resultado.innerHTML = '<p style="color:red">Nenhum dado encontrado.</p>';
                 return;
             }
 
@@ -136,6 +158,7 @@
 
             viatura.forEach(item => {
                 const tr = document.createElement('tr');
+                item.DataFim = item.DataFim === '0000-00-00' ? 'Em posse': item.DataFim;
                 tr.innerHTML = `
                     <td>${item.Matricola}</td>
                     <td>${item.Nome}</td>
@@ -177,7 +200,7 @@
     <div class="content">
         <div class="content-top">
             <div>
-                <div class="content-tittle"><img src="./assets/dist/img/car-badge-48.png" alt=""><h1>Visualizar Dados da Viatura</h1></div>
+                <div class="content-tittle"><img src="./assets/dist/img/car-badge-48.png" alt=""><h1>Ver Dados da Viatura</h1></div>
                 <h4 class="content-subtittle">Introduza uma matrícula de viatura para ver dados.</h4>
                 <input type="text" id="matriculaDadosV" placeholder="Matrícula" class="input" />
                 <button onclick="buscarDadosViatura()" class="btn">Buscar Dados</button>
@@ -191,7 +214,7 @@
 
         <hr>
         <div class="content-bottom">
-            <div class="content-tittle"><img src="./assets/dist/img/car-badge-48.png" alt=""><h1>Visualizar Historico de Propietarios da Viatura</h1></div>
+            <div class="content-tittle"><img src="./assets/dist/img/car-badge-48.png" alt=""><h1>Ver Historico de Propietarios da Viatura</h1></div>
             <h4 class="content-subtittle">Introduza uma matrícula de viatura para ver histórico de propietários</h4>
             <input type="text" id="matriculaHistorico" placeholder="Matrícula" class="input" />
             <button onclick="buscarHistoricoPropietarios()" class="btn">Buscar Dados</button>

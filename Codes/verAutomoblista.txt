@@ -1,0 +1,246 @@
+<!-- NOTA: sugest]ao do GPT para o vizualizar_automoblista-->
+
+// 1 Criar as funções para obter os totais
+<?php
+// Função para buscar o total de viaturas em posse
+function totalViaturasEmPosse($numeroBI, $pdo) {
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM propriedade WHERE NumeroBI = :numeroBI AND DataFim IS NULL");
+    $stmt->execute(['numeroBI' => $numeroBI]);
+    return $stmt->fetchColumn();
+}
+
+// Função para buscar o total histórico de viaturas possuídas
+function totalHistoricoViaturas($numeroBI, $pdo) {
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM propriedade WHERE NumeroBI = :numeroBI AND DataFim IS NOT NULL");
+    $stmt->execute(['numeroBI' => $numeroBI]);
+    return $stmt->fetchColumn();
+}
+
+// Função para buscar o total de multas
+function totalMultas($numeroBI, $pdo) {
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM multas WHERE cidadaoMultado = :numeroBI");
+    $stmt->execute(['numeroBI' => $numeroBI]);
+    return $stmt->fetchColumn();
+}
+
+// Função para buscar o histórico de viaturas de um cidadão
+function historicoViaturas($numeroBI, $pdo) {
+    $stmt = $pdo->prepare("
+        SELECT v.Matricola, v.Marca, v.Modelo, v.Ano, v.Cor, p.DataInicio, p.DataFim 
+        FROM viatura v
+        JOIN propriedade p ON v.Matricola = p.Matricola
+        WHERE p.NumeroBI = :numeroBI
+        ORDER BY p.DataInicio DESC
+    ");
+    $stmt->execute(['numeroBI' => $numeroBI]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+?>
+
+// 2 Implementar a lógica de busca
+<?php
+if (isset($_GET['numeroBI']) || isset($_GET['nome'])) {
+    $numeroBI = $_GET['numeroBI'] ?? null;
+    $nome = $_GET['nome'] ?? null;
+
+    // Buscar o número do BI do cidadão baseado no nome (caso o nome tenha sido passado)
+    if ($nome) {
+        $stmt = $pdo->prepare("SELECT NumeroBI FROM cidadao WHERE Nome LIKE :nome");
+        $stmt->execute(['nome' => "%$nome%"]);
+        $numeroBI = $stmt->fetchColumn();
+    }
+
+    // Se o número do BI foi encontrado, vamos buscar os dados
+    if ($numeroBI) {
+        $totalViaturasEmPosse = totalViaturasEmPosse($numeroBI, $pdo);
+        $totalHistoricoViaturas = totalHistoricoViaturas($numeroBI, $pdo);
+        $totalMultas = totalMultas($numeroBI, $pdo);
+        $historicoViaturas = historicoViaturas($numeroBI, $pdo);
+        
+        // Retornar os dados em formato JSON
+        echo json_encode([
+            'totalViaturasEmPosse' => $totalViaturasEmPosse,
+            'totalHistoricoViaturas' => $totalHistoricoViaturas,
+            'totalMultas' => $totalMultas,
+            'historicoViaturas' => $historicoViaturas
+        ]);
+    } else {
+        echo json_encode(['error' => 'Cidadão não encontrado.']);
+    }
+} else {
+    echo json_encode(['error' => 'Parâmetros de pesquisa inválidos.']);
+}
+?>
+
+// 3 Implementar o JavaScript para fazer a busca via AJAX
+<script>
+function buscarDados() {
+    const nomeOuBI = document.getElementById('automoblista').value;
+
+    // Fazer a requisição AJAX para o servidor PHP
+    fetch(`seu_arquivo_php.php?nome=${nomeOuBI}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert(data.error);
+            } else {
+                // Atualizar os dados na interface
+                document.getElementById('totalEmPosseViaturas').textContent = data.totalViaturasEmPosse;
+                document.getElementById('totalHistorioViaturas').textContent = data.totalHistoricoViaturas;
+                document.getElementById('totalMultas').textContent = data.totalMultas;
+
+                // Atualizar histórico de viaturas
+                const historicoHtml = data.historicoViaturas.map(viatura => {
+                    return `<p>${viatura.Matricola} - ${viatura.Marca} ${viatura.Modelo} (${viatura.Ano}) - Início: ${viatura.DataInicio} - Fim: ${viatura.DataFim || 'Em posse'}</p>`;
+                }).join('');
+                document.getElementById('resultadoHistorico').innerHTML = historicoHtml;
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+        });
+}
+</script>
+
+
+
+
+
+
+//ATUALIZAÇÕES COM multas
+//Passo 1: Criação do Modal HTML
+
+//Passo 2: Exibindo o Modal ao Clicar no Botão
+<script>
+// Variáveis para armazenar o número do BI do cidadão encontrado
+let numeroBISelecionado = '';
+
+// Função para exibir o modal e preencher os dados
+function exibirModalMultas(numeroBI) {
+    numeroBISelecionado = numeroBI; // Armazenar o número de BI do cidadão selecionado
+    document.getElementById('numeroBICidadao').value = numeroBISelecionado; // Preencher o campo oculto com o BI
+
+    // Abrir o modal
+    const modal = new bootstrap.Modal(document.getElementById('modalMulta'));
+    modal.show();
+}
+
+// Função para pesquisar e preencher os dados do cidadão
+function buscarDados() {
+    const nomeOuBI = document.getElementById('automoblista').value;
+
+    // Fazer a requisição AJAX para o servidor PHP
+    fetch(`seu_arquivo_php.php?nome=${nomeOuBI}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert(data.error);
+            } else {
+                // Atualizar os dados na interface
+                document.getElementById('totalEmPosseViaturas').textContent = data.totalViaturasEmPosse;
+                document.getElementById('totalHistorioViaturas').textContent = data.totalHistoricoViaturas;
+                document.getElementById('totalMultas').textContent = data.totalMultas;
+
+                // Atualizar histórico de viaturas
+                const historicoHtml = data.historicoViaturas.map(viatura => {
+                    return `<p>${viatura.Matricola} - ${viatura.Marca} ${viatura.Modelo} (${viatura.Ano}) - Início: ${viatura.DataInicio} - Fim: ${viatura.DataFim || 'Em posse'}</p>`;
+                }).join('');
+                document.getElementById('resultadoHistorico').innerHTML = historicoHtml;
+
+                // Atualizar o botão de multas para mostrar o modal
+                const btnMultas = document.getElementById('btnMultas');
+                btnMultas.onclick = function() {
+                    exibirModalMultas(data.numeroBI); // Passar o número de BI do cidadão para o modal
+                };
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+        });
+}
+</script>
+
+//Passo 3: Enviar os Dados do Formulário de Multa via AJAX
+document.getElementById('formMulta').addEventListener('submit', function(event) {
+    event.preventDefault();  // Impedir o envio tradicional do formulário
+
+    const tipo = document.getElementById('tipoMulta').value;
+    const valor = document.getElementById('valorMulta').value;
+    const dataEmissao = document.getElementById('dataEmissaoMulta').value;
+    const dataVencimento = document.getElementById('dataVencimentoMulta').value;
+    const status = document.getElementById('statusMulta').value;
+    const numeroBI = document.getElementById('numeroBICidadao').value;
+
+    // Fazer a requisição AJAX para enviar os dados da multa
+    fetch('registrar_multa.php', {
+        method: 'POST',
+        body: JSON.stringify({
+            tipo: tipo,
+            valor: valor,
+            dataEmissao: dataEmissao,
+            dataVencimento: dataVencimento,
+            status: status,
+            numeroBI: numeroBI
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Multa registrada com sucesso!');
+            // Fechar o modal após o registro
+            const modal = bootstrap.Modal.getInstance(document.getElementById('modalMulta'));
+            modal.hide();
+            // Recarregar os dados da página ou atualizar a tabela de multas
+            buscarDados();
+        } else {
+            alert('Erro ao registrar a multa.');
+        }
+    })
+    .catch(error => {
+        console.error('Erro:', error);
+    });
+});
+
+
+
+//Passo 4: Criar o Arquivo PHP para Registrar a Multa
+<?php
+// Registrar Multa (registrar_multa.php)
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Obter os dados JSON enviados
+    $data = json_decode(file_get_contents('php://input'), true);
+
+    $tipo = $data['tipo'];
+    $valor = $data['valor'];
+    $dataEmissao = $data['dataEmissao'];
+    $dataVencimento = $data['dataVencimento'];
+    $status = $data['status'];
+    $numeroBI = $data['numeroBI'];
+
+    // Preparar a consulta para inserir a multa
+    try {
+        $stmt = $pdo->prepare("INSERT INTO multas (tipo, valor, status, dataEmissao, dataVencimento, cidadaoMultado) 
+                                VALUES (:tipo, :valor, :status, :dataEmissao, :dataVencimento, :cidadaoMultado)");
+
+        $stmt->execute([
+            'tipo' => $tipo,
+            'valor' => $valor,
+            'status' => $status,
+            'dataEmissao' => $dataEmissao,
+            'dataVencimento' => $dataVencimento,
+            'cidadaoMultado' => $numeroBI
+        ]);
+
+        // Retornar sucesso
+        echo json_encode(['success' => true]);
+    } catch (PDOException $e) {
+        // Retornar erro
+        echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+    }
+}
+?>
+
+

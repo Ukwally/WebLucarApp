@@ -35,6 +35,8 @@
         <small>Registo e identificação de viaturas</small>
         <div class="sub-header-left">
             <a href="dashboard.php">DASHBOARD</a>
+            <a href="vizualizar_automoblista.php">AUTOMOBLISTA</a>
+            <a href="#">CORRIGIR REGISTOS</a>
             <div class="menu" onclick="mostrarMenu()">
                 <div></div>
                 <div></div>
@@ -48,7 +50,8 @@
             <li><b>Id de usuário: </b> <?php echo $_SESSION['user_id']?></li>
             <li><b>E-mail: </b> <?php echo $_SESSION['email']?></li>
             <li><b>Número de técnico: </b> <?php echo $_SESSION['tech_number']?></li>
-            <li><button>ALTERAR PASSWORD</button></li>
+            <li><b>Número de BI: </b> <?php echo $_SESSION['numeroBI']?></li>
+            <li><button onclick="document.getElementById('modal').style='display:flex'">ALTERAR PASSWORD</button></li>
         </ul>
     </div>
     <div class="targuet-list">
@@ -74,9 +77,33 @@
         <div class="btn-side">
             <a class="a-inicial" href="registar_usuario.php">Registrar Usuário</a>
             <a class="a-final" href="configurar_usuario.php">Cofigurar Usuário</a>
+            <!--a-- class="a-final" href="#">Corrigir registos</!--a-->
         </div>  
     </div>
     <?php endif?>
+
+    <div class="modal" id="modal" style="display:none;">
+        <div class="modal-card">
+            <h2 id="modal-tittle"><img id="modalicon" src="./assets/dist/img/icons8-trancar.gif" alt=""><span>ALTERAR PASSWORD</span></h2>
+            <h4 id="modal-subtittle"></h4>
+            <form action="" method="post">
+                <div>
+                    <span class="spanPaswordAntiga">
+                        <label for="antigaPassword"><small>ANTIGA PASSWORD</small></label>
+                        <input type="text" name="antigaPassword" id="antigaPassword">
+                    </span>
+                    <span class="spanPasswordNova">
+                        <label for="novaPassword"><small>NOVA PASSWORD</small></label>
+                        <input type="text" name="novaPassword" id="novaPassword">
+                    </span>
+                </div>
+                <div>
+                    <button class="modal-btn modal-btn-cancelar" onclick="document.getElementById('modal').style='display:none;'">Cancelar!</button>
+                    <button class="modal-btn modal-btn-confirmar" onclick="recomecar()">Confirmar!</button>
+                </div>
+            </form>
+        </div>
+    </div>
     
     <div class="div-footer">
         <p>Lucar 2024 - Direitos reservados</p>

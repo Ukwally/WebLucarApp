@@ -25,6 +25,7 @@
     --dark-grey30:#343a40;
     --dark-grey10:#ced4da;
 }
+.error{ color: rgb(87, 35, 35);}
 /*----------------------
 INICIO HEADER
 -----------------------*/
@@ -211,6 +212,7 @@ FIM FOOTER
     display: flex;
     align-items: center;
 }
+.modal .modal-card h2 img{ max-width: 40px; max-height: 40px;}
 .modal .modal-card h4{
     font-family:sans-serif; 
     color: #6892a8;
