@@ -287,26 +287,26 @@
 
                     <div>
                         <label for="NumeroMotor">NumeroMotor <sub class="error"> *</sub></label>   
-                        <input type="text" id="NumeroMotor"  name="NumeroMotor"  class="input input1" placeholder="NumeroMotor"> 
+                        <input type="text" id="NumeroMotor"  name="NumeroMotor"  class="input input1" placeholder="(Ex: 6G72-ST5360)"> 
                         <label for="MedidaPmeumaticos">MedidaPmeumaticos <sub class="error"> *</sub></label>   
-                        <input type="text" id="MedidaPmeumaticos"  name="MedidaPmeumaticos"  class="input input1" placeholder="MedidaPmeumaticos"> 
+                        <input type="text" id="MedidaPmeumaticos"  name="MedidaPmeumaticos"  class="input input1" placeholder="(Ex: 265-70R16)"> 
                         <label for="Servico">Servico</label>   
-                        <input type="text" id="Servico"  name="Servico"  class="input input1" placeholder="Servico"> 
+                        <input type="text" id="Servico"  name="Servico"  class="input input1" placeholder="(Ex: PARTICULAR)"> 
                         <label for="Lotacao">Lotacao</label>   
-                        <input type="text" id="Lotacao"  name="Lotacao"  class="input input1" placeholder="Lotacao"> 
+                        <input type="text" id="Lotacao"  name="Lotacao"  class="input input1" placeholder="(ex: 7 LUGARES)"> 
                         <label for="Cilindrada">Cilindrada <sub class="error"> *</sub></label>   
-                        <input type="text" id="Cilindrada"  name="Cilindrada"  class="input input1" placeholder="Cilindrada"> 
+                        <input type="text" id="Cilindrada"  name="Cilindrada"  class="input input1" placeholder="(Ex: 2972 c.c)"> 
                     </div>
                     
                     <div>
                         <label for="NumeroCilindros">NumeroCilindros <sub class="error"> *</sub></label>   
-                        <input type="text" id="NumeroCilindros"  name="NumeroCilindros"  class="input input1" placeholder="NumeroCilindros"> 
+                        <input type="text" id="NumeroCilindros"  name="NumeroCilindros"  class="input input1" placeholder="(Ex: 2)"> 
                         <label for="Combustivel">Combustivel <sub class="error"> *</sub></label>   
-                        <input type="text" id="Combustivel"  name="Combustivel"  class="input input1" placeholder="Combustivel"> 
+                        <input type="text" id="Combustivel"  name="Combustivel"  class="input input1" placeholder="(ex: GASOLINA)"> 
                         <label for="PesoBruto">PesoBruto</label>   
-                        <input type="text" id="PesoBruto"  name="PesoBruto"  class="input input1" placeholder="PesoBruto"> 
+                        <input type="text" id="PesoBruto"  name="PesoBruto"  class="input input1" placeholder=""> 
                         <label for="Tara">Tara</label>   
-                        <input type="text" id="Tara"  name="Tara"  class="input input1" placeholder="Tara"> 
+                        <input type="text" id="Tara"  name="Tara"  class="input input1" placeholder="(ex: 157 kg)"> 
                         <label for="NumeroQuadro">NumeroQuadro <sub class="error"> *</sub></label>   
                         <input type="text" id="NumeroQuadro"  name="NumeroQuadro"  class="input input1" placeholder="NumeroQuadro"> 
                     </div>

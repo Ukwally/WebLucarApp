@@ -11,15 +11,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $numeroBI = $_POST['numeroBI'];
 
     $erro;
-    $erroNome = $erroPassword = $erroTechNumber = "";
 
+    $nomeMaxLength = 100;
+    if (strlen($username) > $nomeMaxLength || !preg_match('/^[a-zA-ZÀ-ÿ\s]+$/', $username)) {
+        $_SESSION['erro']='Nome deve ter até ' . $nomeMaxLength . ' caracteres e conter apenas letras e espaços';
+        header('Location:../public/registar_usuario.php');
+        exit;
+    }
 
-    //if (!preg_match("/^[a-zA-Z-' ]*$/",$username)) {
-    //    $erroNome="Apenas letras e espaços em branco";
-    //}
+    if (!preg_match('/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{8,16}$/', $password)) {
+        $_SESSION['erro']='Password deve ter pelo menos 1 maiúscula, 1 minúscula, 1 número e 1 caractere especial. Minimo 8 e maximo 16';
+        header('Location:../public/registar_usuario.php');
+        exit;
+    }
+
+    if (!preg_match('/^[A-Za-z0-9-]+$/', $tech_number)){
+        $_SESSION['erro']='Apenas letras, números e hífens ';
+        header('Location:../public/registar_usuario.php');
+       exit;
+    }
    
-    // Entre 8 e 16 caracteres, pelo menos 1 maiúscula, 1 minúscula, 1 número e 1 caractere especial ninimo 8 e maximo 16
-    // $padrao = "/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{8,16}$/";
+    if (!preg_match("/^\d{9}[A-Z]{2}\d{3}$/",  strtoupper($numeroBI))) {
+        $_SESSION['erro']='BI inválido';
+        header('Location:../public/registar_usuario.php');
+        exit;
+    }
 
     if (empty($username) || empty($password) || empty($email) || empty($tech_number) || empty($numeroBI)) {
         $erro='Preencha todos os campos obrigatórios';

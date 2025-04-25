@@ -16,7 +16,7 @@ $stmtHistorico->execute([$automoblista]);
 $historico = $stmtHistorico->fetchAll(PDO::FETCH_ASSOC);
 
 $sqlMultas="SELECT * FROM multas
-WHERE dataLiquidacao = '0000-00-00' 
+WHERE (dataLiquidacao IS null OR dataLiquidacao = '0000-00-00')
 AND cidadaoMultado = ?
 ";
 

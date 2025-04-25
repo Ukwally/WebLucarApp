@@ -35,6 +35,7 @@
         <small>Registo e identificação de viaturas</small>
         <div class="sub-header-left">
             <a href="dashboard.php">DASHBOARD</a>
+            <a href="pesquisar_viaturas.php">DEEPSEARCH</a>
             <a href="vizualizar_automoblista.php">AUTOMOBLISTA</a>
             <a href="#">CORRIGIR REGISTOS</a>
             <div class="menu" onclick="mostrarMenu()">

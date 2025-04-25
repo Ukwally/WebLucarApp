@@ -25,6 +25,8 @@
             //document.getElementById('resultadoHistorico').innerText = JSON.stringify(viatura, null, 2);
             document.querySelector('.nomeBIAutomoblista>p').innerHTML='NOME:';
             const dadosAutomoblista = viatura.historico[0];
+            console.log('Total multas'+ viatura);
+
             if (dadosAutomoblista) {
                 document.querySelector('.nomeBIAutomoblista>p').innerHTML=`NOME: ${dadosAutomoblista["Nome"]}`;
             }
@@ -32,6 +34,11 @@
                 const btnModalMultas = document.querySelector('#btnModalMultas');
                 btnModalMultas.onclick=function(){
                     document.getElementById('modal').style='display:flex;'
+                };
+
+                const btnVerCarta = document.querySelector('#btnVerCarta');
+                btnVerCarta.onclick=function(){
+                    document.getElementById('modalVerCarta').style='display:flex;'
                 };
 
                 const btnMultar = document.querySelector('#btnMultar');
@@ -48,6 +55,67 @@
             //Fim totais
             const resultado = document.getElementById('resultadoHistorico');
             resultado.innerHTML = ''; 
+
+            //INICO VERIFICAR CARTA EXPIRADA
+            const estadoCartaElement = document.getElementById('estadoCarta');
+            estadoCartaElement.innerHTML = '';
+
+            const CartaElement = document.getElementById('cartaTableBody');
+            CartaElement.innerHTML = '';
+
+            const resp = await fetch(`../externo-api/cartasAPI.php?numeroBI=${automoblista}`);
+            const carta = await resp.json();
+            const estadoCarta = carta.status;
+            const dadosCarta = carta.carta;
+
+            if (!dadosCarta) {
+                CartaElement.innerHTML=`
+                <h1 style="text-align:center; color: orange;">NÃO ENCONTRADO<h1>
+            `;   
+            } else {
+                CartaElement.innerHTML=`
+                <tr>
+                    <td> Nome </td>
+                    <td> ${dadosCarta.nome} </td>
+                </tr>
+                <tr>
+                    <td> Numero BI </td>
+                    <td>  ${dadosCarta.numeroBI} </td>
+                </tr>
+                <tr>
+                    <td> DataNascimento </td>
+                    <td> ${dadosCarta.dataNascimento} </td>
+                </tr>
+                <tr>
+                    <td> Emitido por </td>
+                    <td> ${dadosCarta.emitido_por} </td>
+                </tr>
+                <tr>
+                    <td> Numero da carta </td>
+                    <td> ${dadosCarta.numero_carta} </td>
+                </tr>
+                <tr>
+                    <td> Data de emissao </td>
+                    <td> ${dadosCarta.data_emissao} </td>
+                </tr>
+                <tr>
+                    <td> Data de expiracao </td>
+                    <td> ${dadosCarta.data_expiracao} </td>
+                </tr>
+                `;
+            }
+
+            if (estadoCarta == 'expirado') {
+                estadoCartaElement.innerHTML = `EXPIRADO`;
+                estadoCartaElement.style = 'color:red; font-size:18px;';
+            }else if(estadoCarta == 'ativo'){
+                estadoCartaElement.innerHTML = `REGULAR`;
+                estadoCartaElement.style = 'color:green; font-size:18px;'; 
+            }else{
+                estadoCartaElement.innerHTML = `NÃO ENCONTRADO`;
+                estadoCartaElement.style = 'color:orange; font-size:18px;'; 
+            }
+            //FIM VERIFICAR CARTA EXPIRADA
             
             if (viatura.historico.length === 0) {
                 resultado.innerHTML = '<p style="color:red">Nenhum dado encontrado.</p>';
@@ -182,7 +250,7 @@
             </div>
             <div class="card">
                 <p>ESTADO DA CARTA DE CONDUÇÃO</p>
-                <strong>0</strong>
+                <strong id="estadoCarta">...</strong>
             </div>
         </div>
         <div class="col col2">
@@ -193,7 +261,7 @@
                 <span class="nomeBIAutomoblista">
                     <p>NOME: </p>
                 </span>
-                <span class="acaoAutomoblista"><button class="btn" id="btnModalMultas">Passar Multas</button><button class="btn" >Atualizar Carta</button></span>
+                <span class="acaoAutomoblista"><button class="btn" id="btnModalMultas">Passar Multas</button><button class="btn" style="display: none;">Atualizar Carta</button><button class="btn" id="btnVerCarta">Ver Carta</button></span>
             </div>
 
             <h4>HISTÓRICO DE VIATURAS DO AUTOMOBLISTA</h4>
@@ -222,6 +290,26 @@
                 </div>
             </div>
             <button class="modal-btn" id='btnOk' style="display:none; text-align:center" onclick="document.getElementById('modal').style='display:none;'">OK</button>
+        </div>
+    </div>
+    <div class="modal" id="modalVerCarta" style="display:none">
+        <div class="modal-card">
+            <h2 id="modal-tittle"><img id="modalicon" src="./assets/dist/img/icons8-instalando-atualizações.gif" alt=""><span>CARTA DO CIDÃO</span></h2>
+            <div class="form" id="modalform">
+                <table>
+                    <tbody id="cartaTableBody">
+                        <tr>
+                            <td>Dado</td>
+                            <td>info</td>
+                        </tr>
+                        <tr>
+                            <td>Dado</td>
+                            <td>info</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button class="modal-btn" id='btnOk' style=" text-align:center" onclick="document.getElementById('modalVerCarta').style='display:none;'">OK</button>
+            </div>
         </div>
     </div>
     <div class="div-footer">

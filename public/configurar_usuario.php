@@ -96,6 +96,14 @@
         function pesquisarUsuarios() {
             var termo = document.getElementById("usuario").value;
 
+            var regex = /^[a-zA-Z0-9]{1,20}$/;
+            if (!regex.test(termo)) {
+                exibirModal('yellow','icons8-erro.gif','Aviso','O valor do usuário deve ser alfanumérico e ter entre 1 e 20 caracteres.');
+                document.getElementById("usuario").value='';
+                document.getElementById("usuario").innerHTML='';
+                return; // Não prossegue com a requisição AJAX
+            }
+
             var xhr = new XMLHttpRequest();
             xhr.open("GET", "../scripts/pesquisar_user.php?usuario=" + termo, true);
             xhr.onreadystatechange = function() {

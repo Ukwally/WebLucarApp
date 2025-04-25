@@ -93,20 +93,18 @@ body{
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 16px;
+    margin-top: 20px;
 }
 th, td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
 }
-td{ color: #343a40;}
 th {
-    background-color: #65808fcb;
-    color: #f2fbff;
+    background-color: #f4f4f4;
 }
-tbody tr{background-color: rgba(201, 216, 221, 0.336);}
-tbody tr:nth-child(even){background-color:rgba(157, 181, 187, 0.336);}
+tbody tr{background-color: rgb(201, 216, 221);}
+tbody tr:nth-child(even){background-color:rgb(157, 181, 187);}
 
 /*-------------------------
 INICIO FOOTER

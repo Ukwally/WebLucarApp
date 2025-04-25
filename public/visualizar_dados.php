@@ -58,12 +58,37 @@
         
         async function buscarDadosViatura() {
             const matricula = document.getElementById('matriculaDadosV').value;
+
+            //CORRETO var regex = /^[A-Z]{2}-\d{2}-(\d{2}-)?[A-Z]{2}$/;
+            var regex = /^[A-Z]{2}-\d{3}-(\d{2}-)?[A-Z]{2}$/; //ERRADO PROVISÓRIO POR CAUSA DO LD-404-AO
+            if (!regex.test(matricula)) {
+                exibirModal('red','icons8-erro.gif','Erro','Formáto de matrícola inválido');
+                document.getElementById("matriculaDadosV").value='';
+                document.getElementById("matriculaDadosV").innerHTML='';
+                return; // Não prossegue com a requisição 
+            }
             const response = await fetch(`../scripts/obter_viatura.php?Matricula=${matricula}`);
             const viatura = await response.json();
             //document.getElementById('resultadoDadosV').innerText = JSON.stringify(viatura, null, 2);
             // Exibir os dados em card que substitui a linha de código comentada acima que por sua vez exibe os dados no <pre id="resultadoDadosV" class="cardBody"></pre>            
             const resultado = document.getElementById('resultadoDadosV');
             resultado.innerHTML = ''; // Limpar resultados anteriores
+
+            //INICIO VERIFICAR VIATURA ROUBADA
+            const erromsg = document.getElementById('erro-msg');
+            erromsg.lastChild.innerHTML = '';
+            erromsg.style.display = 'none';
+
+            // Buscar status de roubo
+            const respRoubada = await fetch(`../externo-api/viaturasRoubadasAPI.php?Matricula=${matricula}`);
+            const statusRoubada = await respRoubada.json();
+            const eRoubada = statusRoubada.roubada;
+
+            if (eRoubada) {
+                erromsg.lastChild.innerHTML = `VIATURA ROUBADA`;
+                erromsg.style.display = 'flex';
+            }
+            //FIM VERIFICAR VIATURA ROUBADA
 
             /*  pesquisar como divdir em 2 cards e ver se vai ser igual a como eu fiz abaixo
                 const card = document.createElement('div');
@@ -127,6 +152,16 @@
 
         async function buscarHistoricoPropietarios() {
             const matricula = document.getElementById('matriculaHistorico').value;
+
+            //CORRETO var regex = /^[A-Z]{2}-\d{2}-(\d{2}-)?[A-Z]{2}$/;
+            var regex = /^[A-Z]{2}-\d{3}-(\d{2}-)?[A-Z]{2}$/; //ERRADO PROVISÓRIO POR CAUSA DO LD-404-AO            
+            if (!regex.test(matricula)) {
+                exibirModal('red','icons8-erro.gif','Erro','Formáto de matrícola inválido');
+                document.getElementById("matriculaHistorico").value='';
+                document.getElementById("matriculaHistorico").innerHTML='';
+                return; // Não prossegue com a requisição 
+            }
+
             const response = await fetch(`../scripts/obter_historico.php?Matricula=${matricula}`);
             const viatura = await response.json();
             //document.getElementById('resultadoHistorico').innerText = JSON.stringify(viatura, null, 2);
@@ -173,6 +208,19 @@
             resultado.appendChild(table);
         }
 
+        function exibirModal(color,image,tittle,message){
+            const modal = document.getElementById('modal2'); 
+            modal.style="display:flex";
+
+            const modaltittle = document.getElementById('modal-tittle2');
+            modaltittle.style=`color:${color};`;
+            modaltittle.firstElementChild.src="./assets/dist/img/"+image;
+            modaltittle.lastElementChild.innerHTML=tittle;
+                                        
+            const modalsubtittle = document.getElementById('modal-subtittle2');
+            modalsubtittle.innerHTML=message;
+        }
+
     </script>
 </head>
 <body>
@@ -214,12 +262,20 @@
 
         <hr>
         <div class="content-bottom">
+            <div class="erro" id="erro-msg" style="display: none;"> <img src="../public/assets/dist/img/icons8-erro.gif" alt=""><span></span></div>
             <div class="content-tittle"><img src="./assets/dist/img/car-badge-48.png" alt=""><h1>Ver Historico de Propietarios da Viatura</h1></div>
             <h4 class="content-subtittle">Introduza uma matrícula de viatura para ver histórico de propietários</h4>
             <input type="text" id="matriculaHistorico" placeholder="Matrícula" class="input" />
             <button onclick="buscarHistoricoPropietarios()" class="btn">Buscar Dados</button>
             <!--pre id="resultadoHistorico" class="cardBody"></pre-->
             <div id="resultadoHistorico"></div>
+        </div>
+    </div>
+    <div class="modal" id="modal2" style="display:none">
+        <div class="modal-card" id="modal-card">
+            <h2 id="modal-tittle2"><img id="modalicon2" src="./assets/dist/img/info.png" alt=""><span>FINALIZADO</span></h2>
+            <h4 id="modal-subtittle2"></h4>
+            <button class="modal-btn" onclick="document.getElementById('modal2').style='display:none;'" >OK</button>
         </div>
     </div>
     <div class="div-footer">

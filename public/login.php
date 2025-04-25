@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,12 +25,24 @@
                         <label for="password">Password</label>
                         <input type="password" name="password">
                         <button type="submit">Login</button>
-                        <?php if (isset($error)) { echo "<p style='color:red;'>$error</p>"; } ?>
                         <a href="index.php">Esqueçeu ?</a>
                     </form>
-                    <?php if (!empty($error)): ?>
-                        <div class="error"><?php echo $error; ?></div>
+
+                    <?php if (isset($_SESSION['erro'])): ?>
+                        <div class="erro" id="erro-msg"> <img src="../public/assets/dist/img/icons8-erro.gif" alt=""> <?php echo $_SESSION['erro']; ?></div>
                     <?php endif; ?>
+
+                    <script>
+                        setTimeout(function() {
+                            <?php unset($_SESSION['erro']); ?>
+                        
+                            var erroMsg = document.getElementById('erro-msg');
+                            if (erroMsg) {
+                                erroMsg.style.display = 'none';
+                            }
+                        }, 5000);
+                    </script>
+
 
 
                     <div class="formaDeLogin">

@@ -6,14 +6,28 @@ $NumeroBI = $_POST['NumeroBI'];
 $DataInicio = $_POST['DataInicio'];
 $DataFim = $_POST['DataFim'];
 
-// Função para validar matrícula (assumindo o formato português: 2 letras, 2 números, 2 letras)
+//Verifica se a matrícula tem o formato(ex: AB-12-CD)
 //function validarMatricula($matricula) {
-//    // Verifica se a matrícula tem o formato adequado (ex: AB-12-CD)
 //    return preg_match("/^[A-Z]{2}-\d{2}-[A-Z]{2}$/", strtoupper($matricula));
 //}
 
-// Expressão regular para validar o número do BI
-//$padrao = "/^\d{3}\d{6}[A-Z]{2}\d{3}$/";
+//Para suportar ambos os formatos (como AB-12-CD e AB-12-13-CD)
+//function validarMatricula($matricula) {
+//    return preg_match("/^[A-Z]{2}-\d{2}-(\d{2}-)?[A-Z]{2}$/", strtoupper($matricula));
+//}
+
+//Verifica se a matrícula tem o formato (ex: AB-12-13-CD)
+if (!preg_match("/^[A-Z]{2}-\d{2}-\d{2}-[A-Z]{2}$/",  strtoupper($Matricola))) {
+    echo json_encode(['success' => false, 'error' => 'Formáto de matrícula inválido']);
+    exit;
+}
+
+// Verifica se o BI tem o formato adequado (ex: 004351746UE066)
+if (!preg_match("/^\d{9}[A-Z]{2}\d{3}$/",  strtoupper($NumeroBI))) {
+    echo json_encode(['success' => false, 'error' => 'BI inválido']);
+    exit;
+}
+
 
 $sqlCheck = "SELECT COUNT(*) FROM cidadao WHERE NumeroBI = :NumeroBI";
 $stmtCheck = $pdo->prepare($sqlCheck);

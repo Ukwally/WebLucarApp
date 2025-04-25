@@ -166,7 +166,6 @@ INICIO FOOTER
     position: absolute;
     z-index: 2;
     top: 0;
-    
 }
 .modal-card{
     width: 400px;
@@ -214,4 +213,14 @@ INICIO FOOTER
 .modal .modal-card .modal-btn-confirmar{
     background-color: #68a86d;
     float: right;
+}
+/*TABELA CARTAS NA MODAL*/
+
+.tabelaCartas tbody td {
+    padding: 8px;
+    text-align: left;
+}
+
+.tabelaCartas tbody td:last-child {
+    text-align: right;
 }
