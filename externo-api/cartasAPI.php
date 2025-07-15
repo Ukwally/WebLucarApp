@@ -11,7 +11,7 @@ $numeroBI = $_GET['numeroBI'];
 //Verificar Estado
 $sqlStatus = "SELECT * FROM cartas WHERE numeroBI = ? 
 LIMIT 1";
-$stmtStatus = $pdo->prepare($sqlStatus);
+$stmtStatus = $pdo2->prepare($sqlStatus);
 $stmtStatus->execute([$numeroBI]);
 $status = $stmtStatus->fetch(PDO::FETCH_ASSOC);
 

@@ -59,6 +59,7 @@
                         <th>ID</th>
                         <th>Nome</th>
                         <th>Email</th>
+                        <th>Numero BI</th>
                         <th>Nº técnico</th>
                         <th>Data Criação</th>
                         <th>Ação</th>
@@ -118,8 +119,9 @@
                         row.insertCell(0).innerHTML = usuario.id;
                         row.insertCell(1).innerHTML = usuario.username;
                         row.insertCell(2).innerHTML = usuario.email;
-                        row.insertCell(3).innerHTML = usuario.tech_number;
-                        row.insertCell(4).innerHTML = usuario.created_at;
+                        row.insertCell(3).innerHTML = usuario.numeroBI;
+                        row.insertCell(4).innerHTML = usuario.tech_number;
+                        row.insertCell(5).innerHTML = usuario.created_at;
 
 
                         var btnRecuperar = document.createElement("button");
@@ -129,7 +131,7 @@
                             exibirModalRecuperar('yellow','icons8-erro.gif','Aviso','mensagem',usuario.id,usuario.username);
 
                         };
-                        row.insertCell(5).appendChild(btnRecuperar);
+                        row.insertCell(6).appendChild(btnRecuperar);
 
                         // Cria o botão de Excluir
                         var btnExcluir = document.createElement("button");
@@ -139,7 +141,7 @@
                             exibirModalExcuir('yellow','icons8-erro.gif','Aviso','mensagem',usuario.id,usuario.username);
 
                         };
-                        row.cells[5].appendChild(btnExcluir);
+                        row.cells[6].appendChild(btnExcluir);
                         
                     });
                 }

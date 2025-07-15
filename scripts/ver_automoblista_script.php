@@ -4,7 +4,7 @@ $automoblista = $_GET['Automoblista'];
 
 //VALIDAR AQUI O automoblista NÃO VAZIO NEM CARACTERES ESPECIAIS
 
-$sqlHistorico ="SELECT pr.Id, pr.Matricola, pr.NumeroBI, pr.DataInicio, pr.DataFim, c.Nome, c.Endereco,v.Marca,v.Modelo,v.Ano,v.cor 
+$sqlHistorico ="SELECT pr.Id, pr.Matricola, pr.NumeroBI, pr.DataInicio, pr.DataFim, c.Nome, c.genero, c.Endereco,v.Marca,v.Modelo,v.Ano,v.cor 
 FROM Propriedade pr
 JOIN viatura v ON pr.Matricola = v.Matricola
 JOIN Cidadao c ON pr.NumeroBI = c.NumeroBI

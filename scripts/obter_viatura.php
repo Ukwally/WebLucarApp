@@ -19,7 +19,7 @@ $matricula = $_GET['Matricula'];
     ";
 */
 
-$sql = "SELECT v.Matricola, v.Marca, v.Modelo, v.Ano, v.Cor, v.NumeroMotor, v.MedidaPmeumaticos, v.Servico, v.Lotacao, v.Cilindrada, v.NumeroCilindros, v.Combustivel, v.PesoBruto, v.Tara, v.NumeroQuadro,      pr.NumeroBI, c.Nome, c.Endereco, c.DataNascimento
+$sql = "SELECT v.Matricola, v.Marca, v.Modelo, v.Ano, v.Cor, v.NumeroMotor, v.MedidaPmeumaticos, v.Servico, v.Lotacao, v.Cilindrada, v.NumeroCilindros, v.Combustivel, v.PesoBruto, v.Tara, v.NumeroQuadro,      pr.NumeroBI, c.Nome, c.genero, c.Endereco, c.DataNascimento
 FROM Viatura v
 JOIN Propriedade pr ON v.Matricola = pr.Matricola
 JOIN Cidadao c ON pr.NumeroBI = c.NumeroBI

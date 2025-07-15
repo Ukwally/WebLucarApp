@@ -35,7 +35,7 @@ body{
 }
 .content .section-left{
     background:linear-gradient(180deg,#80b1e2,#ffffff);
-    width: 60%;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -55,14 +55,17 @@ fill:#3f6992;
 stroke: #5894cf;
 stroke-width: 0.4px;
 }
-.section-left .icon-text{position: absolute;z-index: 3;font-size: 100px;left:140px;top:160px;color: white; border: white 2px solid;border-image: linear-gradient(60deg, rgb(52, 175, 212), transparent, transparent) 1;background:linear-gradient(45deg , transparent,#90dad640, #7cb5f7b4) ;padding: 10px; font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;}
+.section-left .icon-text{display: none;position: absolute;z-index: 3;font-size: 100px;left:140px;top:160px;color: white; border: white 2px solid;border-image: linear-gradient(60deg, rgb(52, 175, 212), transparent, transparent) 1;background:linear-gradient(45deg , transparent,#90dad640, #7cb5f7b4) ;padding: 10px; font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;}
 .content .section-right{
-    width:60% ;
+    width:100% ;
+    position: absolute;
     /*background:url("../dist/img/main-banner-1.jpg");*/
     background-size: cover;
     display: flex;
     align-items: center;
     justify-content: center;
+    backdrop-filter: blur(20px);
+    height: 100%;
 }
 .FormLogin{ width: 100%; display: flex; color: var(--black10);}
 .FormLogin .form-set{width: 80%;margin: auto;/*background-color: var(--blueMain)*/;display: flex; flex-direction: column;}
@@ -94,3 +97,18 @@ stroke-width: 0.4px;
     right: 10px;
     font-weight: 600;
 }
+
+/*INICIO MEDIA QUERY*/
+@media only screen and (min-width:1024px){
+    .content .section-left{
+        width:50%;
+    }
+    .section-left .icon-text{ display: block;}
+    .content .section-right{
+        width:50%;
+        position: static;
+        background-size: cover;
+    }
+    
+}
+/*FIM MEDIA QUERY*/

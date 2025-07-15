@@ -34,10 +34,14 @@
     <div class="sub-header">
         <small>Registo e identificação de viaturas</small>
         <div class="sub-header-left">
-            <a href="dashboard.php">DASHBOARD</a>
-            <a href="pesquisar_viaturas.php">DEEPSEARCH</a>
-            <a href="vizualizar_automoblista.php">AUTOMOBLISTA</a>
-            <a href="#">CORRIGIR REGISTOS</a>
+            <span  onclick="mostrarMenu()" style="cursor: pointer;">&#10024</span>
+            <span id="preMenu" class="hidden">
+                <a>X</a>
+                <a href="dashboard.php">DASHBOARD</a>
+                <a href="pesquisar_viaturas.php">DEEPSEARCH</a>
+                <a href="vizualizar_automoblista.php">AUTOMOBLISTA</a>
+                <a href="#">CORRIGIR REGISTOS</a>
+            </span>
             <div class="menu" onclick="mostrarMenu()">
                 <div></div>
                 <div></div>

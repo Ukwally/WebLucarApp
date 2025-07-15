@@ -24,12 +24,17 @@ $sql_multas_liquidadas = "SELECT COUNT(*) AS total_multas_liquidadas FROM multas
 $stmt_multas_liquidadas = $pdo->query($sql_multas_liquidadas);
 $total_multas_liquidadas = $stmt_multas_liquidadas->fetch(PDO::FETCH_ASSOC)['total_multas_liquidadas'];
 
+$sql_total_viaturas_roubadas = "SELECT COUNT(*) AS total_viaturas_roubadas FROM viaturasroubadas WHERE YEAR(data_roubo) = YEAR(CURDATE())";
+$stmt_total_viaturas_roubadas = $pdo2->query($sql_total_viaturas_roubadas);
+$total_viaturas_roubadas = $stmt_total_viaturas_roubadas->fetch(PDO::FETCH_ASSOC)['total_viaturas_roubadas'];
+
 // Montando o array com todos os totais
 $data = [
     'total_viaturas' => $total_viaturas,
     'total_cartas_expiradas' => $total_cartas_expiradas,
     'total_multas' => $total_multas,
-    'total_multas_liquidadas' => $total_multas_liquidadas
+    'total_multas_liquidadas' => $total_multas_liquidadas,
+    'total_viaturas_roubadas' => $total_viaturas_roubadas
 ];
 
 // Retorna os dados como JSON

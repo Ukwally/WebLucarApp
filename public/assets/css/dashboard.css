@@ -79,6 +79,10 @@ body{
 .card p{ font-weight: 600; font-size: 15px; margin-bottom: 5px;color:#4987aa;}
 .card strong{  font-size: 35px; float: right;color:#223f4e;}
 
+.card-inner{ background-color:whitesmoke;height: 80px; margin:10px 0px; border-radius: 4px; box-shadow: 2px 2px 7px 4px #1a1a1b2d; padding: 10px;}
+.card-inner p{ font-weight: 600; font-size: 15px; margin-bottom: 5px;color:#4987aa;}
+.card-inner strong{  font-size: 35px; float: right;color:#223f4e;}
+
 
 .col{ /*background-color: #d1dde6;*/ background-color: whitesmoke; margin:20px 5px; border-radius: 4px; box-shadow: 2px 2px 7px 4px #1a1a1b67; padding: 10px;}
 .col1{width: calc(50% + 10px); height: calc(100vh - 340px);}

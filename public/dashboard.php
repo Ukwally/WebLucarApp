@@ -46,25 +46,21 @@ if (!isset($_SESSION['user_id'])) {
         <div class="card">
             <p>TOTAL DE VIATURAS CADASTRADAS ( <?php echo date('Y') ?> )</p>
             <i class="bi bi-broadcast-pin"></i>
-            <strong id="totalViaturas">Carregando...</strong>
+            <strong id="totalViaturas">A carregar...</strong>
         </div>
         <div class="card">
             <p>TOTAL DE CARTAS EXPIRADAS ( <?php echo date('Y') ?> )</p>
-            <strong id="totalCartasExpiradas">Carregando...</strong>
+            <strong id="totalCartasExpiradas">A carregar...</strong>
         </div>
         <div class="card">
             <p>TOTAL DE MULTAS ( <?php echo date('Y') ?> )</p>
-            <strong id="totalMultas">Carregando...</strong>
+            <strong id="totalMultas">A carregar...</strong>
         </div>
         <div class="card">
             <!--p>TOTAL DE VIATURAS ROUBADAS ( )</p-->
             <p>MULTAS LIQUIDAS ( <?php echo date('Y') ?> )</p>
-            <strong id="totalMultasLiquidadas">Carregando...</strong>
+            <strong id="totalMultasLiquidadas">A carregar...</strong>
         </div>
-
-
-
-
     </div>
 
     <div class="row">
@@ -93,6 +89,10 @@ if (!isset($_SESSION['user_id'])) {
                 <tbody id="vehicleTableBody">
                 </tbody>
             </table>
+            <div class="card-inner">
+                <p>TOTAL DE VIATURAS ROUBADAS ( <?php echo date('Y') ?> )</p>
+                <strong id="totalViaturasRoubadas">A carregar...</strong>
+            </div>
         </div>
     </div>
 
@@ -114,6 +114,7 @@ if (!isset($_SESSION['user_id'])) {
                     document.getElementById('totalCartasExpiradas').textContent = data.total_cartas_expiradas;
                     document.getElementById('totalMultas').textContent = data.total_multas;
                     document.getElementById('totalMultasLiquidadas').textContent = data.total_multas_liquidadas;
+                    document.getElementById('totalViaturasRoubadas').textContent = data.total_viaturas_roubadas;
                 })
                 .catch(error => console.error('Erro ao carregar os totais:', error));
         }

@@ -117,15 +117,16 @@
             card.innerHTML = `
                 <div class = "card">
                 <p>PROPRIETÁRIO ATUAL:</p>
-                <h2>${viatura.Nome}</h2>
+                <h2 style="margin-top: 5px; margin-bottom: 5px;" >${viatura.Nome}</h2>
                 <p><strong>NumeroBI:</strong> ${viatura.NumeroBI}</p>
                 <p><strong>Endereco:</strong> ${viatura.Endereco}</p>
+                <p><strong>Genero:</strong> ${viatura.genero}</p>
                 <p><strong>DataNascimento:</strong> ${viatura.DataNascimento}</p>
                 </div>
 
                 <div class = "card">
                 <p>DADOS DA VIATURA</p>
-                <h2>${viatura.Matricola}</h2>
+                <h2 style="margin-top: 5px; margin-bottom: 5px;" >${viatura.Matricola}</h2>
                 <p><strong>Ano:</strong> ${viatura.Ano}</p>
                 <p><strong>Marca:</strong> ${viatura.Marca}</p>
                 <p><strong>NumeroMotor:</strong> ${viatura.NumeroMotor}</p>
